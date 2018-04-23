@@ -14,7 +14,9 @@ npm install --save express
 O GET é o método comum. Ao acessar uma rota, geralmente, acessamos ela via método GET.
 
 Temos que reiniciar sempre o server?
+```
 npm install --save-dev nodemon
+```
 Adicionar o novo script no package.json
 ```
 "scripts": {
