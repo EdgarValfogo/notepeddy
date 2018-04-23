@@ -33,6 +33,7 @@ MongoClient.connect(mongourl, (err, client) => {
     // Em caso de sucesso
     db = client.db('notepeddy') // Aqui conectamos a base de dados
 
+    // Utilizaremos arrow functions do ES6
     app.listen(3000, () => {
         // Servidor express iniciado com sucesso
         // READ
@@ -41,8 +42,9 @@ MongoClient.connect(mongourl, (err, client) => {
             db.collection("notas").find().toArray( function(err, result) {
                 response.render( __dirname + "/app/index.ejs", {notas: result});
             });
-            //response.sendFile( __dirname + "/app/index.html")
             
+            // Método anterior, sem banco de dados e sem template engine
+            //response.sendFile( __dirname + "/app/index.html")
         })
         
         // CREATE
@@ -51,19 +53,41 @@ MongoClient.connect(mongourl, (err, client) => {
                 if (err) return console.log(err)
             })
 
-            console.log(request.body);
+            // Redireciona para a home para não ter refresh neste método
             response.redirect("/");
         })
         
         // UPDATE
-        app.put("/", (request, response, next) => {
-            response.redirect("/");
+        app.post("/editar", (request, response, next) => {
+            // Redireciona para a home para não ter refresh neste método]
+            console.log( request.body );
+            db.collection('notas').findOneAndUpdate(
+                { titulo_nota: request.body.titulo_nota },
+                {
+                    $set: {
+                        titulo_nota: request.body.titulo_nota + " : Marcado"
+                    }
+                },
+                {
+                    upsert: false // Caso não localize um registro, não insere um novo documento
+                },
+                ( err, result ) => {
+                    if (err) return console.log(err)
+                    console.log( result )
+                    response.redirect("/")
+                }
+            )
         })
         
         // DELETE
-        app.delete("/", (request, response, next) => {
+        app.post("/deletar", (request, response, next) => {
+            // Redireciona para a home para não ter refresh neste método
+            // Para remover, utilizamos a collection, com o método remove( query, atributos )
+            db.collection("notas").remove(
+                { titulo_nota : request.body.titulo_nota },
+                { justOne: true }
+            )
             response.redirect("/");
         })
     })
 })
-// Utilizaremos arrow functions do ES6
