@@ -1,0 +1,13 @@
+- CRUD
+- Create = POST
+- Read = GET
+- Update = PUT
+- Delete = DELETE
+
+- npm init
+- npm install --save express
+- Apresentar o GET, e como enviar o arquivo da nossa pasta
+- Temos que reiniciar sempre o server?
+- npm install --save-dev nodemon
+- Adicionar o novo script no package.json
+- npm run dev
