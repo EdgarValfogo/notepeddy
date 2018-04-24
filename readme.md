@@ -34,7 +34,9 @@ npm install --save body-parser
 ```
 O post agora pode ser lido com request.body
 E agora, onde salvaremos os dados?
+```
 npm install --save mongodb
+```
 Onde vamos armazenar nossos dados? mlab.com
 ## O Create/Post
 Houve post?
